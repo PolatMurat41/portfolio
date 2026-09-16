@@ -33,6 +33,7 @@ Site, artık bu verileri build-time MDX/sabit kod yerine runtime'da veritabanın
 - **`Education`**: `school, href, degree, logoUrl, start, end, sortOrder`.
 - **`Project`**: `title, href, dates, active (bool), description, technologies (string[]), image, video, links (JSON: [{type, href, iconKey}]), sortOrder`.
 - **`BlogPost`**: `slug (unique), title, summary, content (markdown text), publishedAt, image, draft (bool)`.
+- **`Hackathon`**: `title, dates, location, description, image, mlh (nullable), win (nullable), links (JSON: [{title, href, iconKey}]), sortOrder`. (`resume.tsx` içindeki `hackathons` dizisinin karşılığı — planlamada fark edilen ve admin CRUD kapsamına dahil edilmesine karar verilen bir alan.)
 
 İkon alanları için `src/lib/icon-registry.ts` adında sabit bir eşleme dosyası oluşturulur: `iconKey -> React component`. Admin panelde ikon seçimi dropdown ile yapılır; mevcut inline JSX ikonlar (örn. proje linklerindeki `<Icons.globe />`) bu registry'ye taşınır.
 
@@ -57,12 +58,13 @@ Ortak bir `AdminLayout` (sol menü + üst bar, mevcut shadcn/ui bileşenleriyle)
 - **`/admin/education`** — eğitim listesi + sıralama + CRUD.
 - **`/admin/projects`** — proje listesi + sıralama + CRUD, link/ikon seçimi.
 - **`/admin/skills`** — yetenek listesi + sıralama + ikon seçimi.
+- **`/admin/hackathons`** — hackathon listesi + sıralama + CRUD (title, dates, location, description, image, mlh, win, links).
 
 ## 5. Mevcut İçeriğin Taşınması (Migration)
 
 - Prisma migration ile şema oluşturulduktan sonra tek seferlik `prisma/seed.ts` script'i:
   - `content/*.mdx` içindeki 7 blog yazısını frontmatter + içerikleriyle `BlogPost` tablosuna aktarır.
-  - `src/data/resume.tsx` içindeki `DATA` objesini (profile, work, education, projects, skills, contact) veritabanına aktarır; ikon component referansları `iconKey` string'lerine çevrilir.
+  - `src/data/resume.tsx` içindeki `DATA` objesini (profile, work, education, projects, skills, contact, hackathons) veritabanına aktarır; ikon component referansları `iconKey` string'lerine çevrilir.
 - Seed sonrası `content/*.mdx`, `content-collections.ts`, `src/data/resume.tsx` kod tabanından kaldırılır.
 - `content-collections` paketi `package.json`'dan çıkarılır.
 

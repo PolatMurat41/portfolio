@@ -1,10 +1,8 @@
  
 import { ImageResponse } from "next/og";
-import { DATA } from "@/data/resume";
+import { getProfile } from "@/lib/data";
 
-export const runtime = "edge";
-
-export const alt = DATA.name;
+export const alt = "Portfolio";
 export const size = {
     width: 1200,
     height: 630,
@@ -107,9 +105,10 @@ const styles = {
 
 export default async function Image() {
     try {
+        const profile = await getProfile();
         const fontData = await getFontData();
-        const imageUrl = DATA.avatarUrl
-            ? new URL(DATA.avatarUrl, DATA.url).toString()
+        const imageUrl = profile.avatarUrl
+            ? new URL(profile.avatarUrl, profile.url).toString()
             : undefined;
 
         return new ImageResponse(
@@ -119,13 +118,13 @@ export default async function Image() {
                         <div style={styles.wrapper}>
                             {imageUrl && (
                                 <div style={styles.imageSection}>
-                                    <img src={imageUrl} alt={DATA.name} style={styles.image} />
+                                    <img src={imageUrl} alt={profile.name} style={styles.image} />
                                 </div>
                             )}
                             <div style={styles.mainContainer}>
-                                <div style={styles.title}>{DATA.name}</div>
-                                {DATA.description && (
-                                    <div style={styles.description}>{DATA.description}</div>
+                                <div style={styles.title}>{profile.name}</div>
+                                {profile.description && (
+                                    <div style={styles.description}>{profile.description}</div>
                                 )}
                             </div>
                         </div>

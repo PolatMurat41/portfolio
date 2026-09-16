@@ -8,7 +8,7 @@ Built with next.js, [shadcn/ui](https://ui.shadcn.com/), and [magic ui](https://
 
 # Features
 
-- Setup only takes a few minutes by editing the [single config file](./src/data/resume.tsx)
+- All content (blog posts, resume/profile data) is managed through a built-in, password-protected [admin panel](#admin-panel) — no code changes or redeploys needed
 - Built using Next.js 14, React, Typescript, Shadcn/UI, TailwindCSS, Framer Motion, Magic UI
 - Includes a blog
 - Responsive for different devices
@@ -40,7 +40,40 @@ Built with next.js, [shadcn/ui](https://ui.shadcn.com/), and [magic ui](https://
    pnpm dev
    ```
 
-5. Open the [Config file](./src/data/resume.tsx) and make changes
+5. Set up the database and admin credentials — see [Admin Panel](#admin-panel) below, then run:
+
+   ```bash
+   pnpm prisma migrate dev
+   pnpm prisma db seed
+   ```
+
+6. Open [http://localhost:3000/admin](http://localhost:3000/admin) and sign in with the password you hashed into `ADMIN_PASSWORD_HASH`
+
+# Admin Panel
+
+Blog posts and all resume/profile data (work experience, education, skills, projects, hackathons, contact links) are managed at `/admin`, backed by Postgres via Prisma.
+
+## Environment variables
+
+Copy `.env.example` to `.env` and fill in:
+
+| Variable | How to get it |
+| --- | --- |
+| `POSTGRES_PRISMA_URL` | From your Vercel Postgres integration (`vercel env pull .env` if the project is linked, or the Vercel dashboard's `.env.local` tab) |
+| `POSTGRES_URL_NON_POOLING` | Same place as above |
+| `SESSION_SECRET` | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| `ADMIN_PASSWORD_HASH` | `node scripts/hash-password.mjs <your-password>` |
+
+## First-time setup
+
+```bash
+pnpm install
+pnpm prisma migrate dev
+pnpm prisma db seed   # only needed once, against a fresh database
+pnpm dev
+```
+
+Then open [http://localhost:3000/admin](http://localhost:3000/admin) and sign in.
 
 # License
 

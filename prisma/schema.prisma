@@ -7,3 +7,105 @@ datasource db {
   url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
+
+model Profile {
+  id           Int      @id @default(1)
+  name         String
+  initials     String
+  url          String
+  location     String
+  locationLink String
+  description  String
+  summary      String
+  avatarUrl    String
+  email        String
+  tel          String
+  updatedAt    DateTime @updatedAt
+}
+
+enum SocialPlatform {
+  GitHub
+  LinkedIn
+  X
+  Youtube
+  Email
+}
+
+model SocialLink {
+  id           String         @id @default(cuid())
+  platform     SocialPlatform @unique
+  url          String
+  showInNavbar Boolean        @default(false)
+}
+
+model Skill {
+  id        String @id @default(cuid())
+  name      String
+  iconKey   String
+  sortOrder Int    @default(0)
+}
+
+model WorkExperience {
+  id          String   @id @default(cuid())
+  company     String
+  href        String
+  location    String
+  title       String
+  logoUrl     String
+  start       String
+  end         String
+  description String
+  badges      String[]
+  sortOrder   Int      @default(0)
+}
+
+model Education {
+  id        String @id @default(cuid())
+  school    String
+  href      String
+  degree    String
+  logoUrl   String
+  start     String
+  end       String
+  sortOrder Int    @default(0)
+}
+
+model Project {
+  id           String   @id @default(cuid())
+  title        String
+  href         String
+  dates        String
+  active       Boolean  @default(false)
+  description  String
+  technologies String[]
+  image        String
+  video        String
+  links        Json
+  sortOrder    Int      @default(0)
+}
+
+model Hackathon {
+  id          String  @id @default(cuid())
+  title       String
+  dates       String
+  location    String
+  description String
+  image       String
+  mlh         String?
+  win         String?
+  links       Json
+  sortOrder   Int     @default(0)
+}
+
+model BlogPost {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  summary     String
+  content     String
+  image       String?
+  draft       Boolean   @default(true)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}

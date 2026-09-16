@@ -1,10 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { DATA } from "@/data/resume";
+import { getHackathons } from "@/lib/data";
+import { getIcon } from "@/lib/icon-registry";
 import { Timeline, TimelineItem, TimelineConnectItem } from "@/components/timeline";
 
-export default function HackathonsSection() {
+export default async function HackathonsSection() {
+  const hackathons = await getHackathons();
+
   return (
     <section id="hackathons" className="overflow-hidden">
       <div className="flex min-h-0 flex-col gap-y-8 w-full">
@@ -19,15 +22,14 @@ export default function HackathonsSection() {
           <div className="flex flex-col gap-y-3 items-center justify-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">I like building things</h2>
             <p className="text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed xl:text-lg/relaxed text-balance text-center">
-              During my time in university, I attended {DATA.hackathons.length}+
-              hackathons. People from around the country would come together and
+              During my time in university, I attended {hackathons.length}+ hackathons. People from around the country would come together and
               build incredible things in 2-3 days. It was eye-opening to see the endless possibilities brought to life by a group of motivated and passionate individuals.
             </p>
           </div>
         </div>
         <Timeline>
-          {DATA.hackathons.map((hackathon) => (
-            <TimelineItem key={hackathon.title + hackathon.dates} className="w-full flex items-start justify-between gap-10">
+          {hackathons.map((hackathon) => (
+            <TimelineItem key={hackathon.id} className="w-full flex items-start justify-between gap-10">
               <TimelineConnectItem className="flex items-start justify-center">
                 {hackathon.image ? (
                   <img
@@ -40,37 +42,32 @@ export default function HackathonsSection() {
                 )}
               </TimelineConnectItem>
               <div className="flex flex-1 flex-col justify-start gap-2 min-w-0">
-                {hackathon.dates && (
-                  <time className="text-xs text-muted-foreground">{hackathon.dates}</time>
-                )}
-                {hackathon.title && (
-                  <h3 className="font-semibold leading-none">{hackathon.title}</h3>
-                )}
-                {hackathon.location && (
-                  <p className="text-sm text-muted-foreground">{hackathon.location}</p>
-                )}
+                {hackathon.dates && <time className="text-xs text-muted-foreground">{hackathon.dates}</time>}
+                {hackathon.title && <h3 className="font-semibold leading-none">{hackathon.title}</h3>}
+                {hackathon.location && <p className="text-sm text-muted-foreground">{hackathon.location}</p>}
                 {hackathon.description && (
-                  <p className="text-sm text-muted-foreground leading-relaxed wrap-break-word">
-                    {hackathon.description}
-                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed wrap-break-word">{hackathon.description}</p>
                 )}
-                {hackathon.links && hackathon.links.length > 0 && (
-                  <div className="mt-1 flex flex-row flex-wrap items-start gap-2">
-                    {hackathon.links.map((link, idx) => (
-                      <Link
-                        href={link.href}
-                        key={idx}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Badge className="flex items-center gap-1.5 text-xs bg-primary text-primary-foreground">
-                          {link.icon}
-                          {link.title}
-                        </Badge>
-                      </Link>
-                    ))}
-                  </div>
-                )}
+                {(() => {
+                  const links = hackathon.links as { title: string; href: string; iconKey: string }[];
+                  return (
+                    links.length > 0 && (
+                      <div className="mt-1 flex flex-row flex-wrap items-start gap-2">
+                        {links.map((link, idx) => {
+                          const Icon = getIcon(link.iconKey);
+                          return (
+                            <Link href={link.href} key={idx} target="_blank" rel="noopener noreferrer">
+                              <Badge className="flex items-center gap-1.5 text-xs bg-primary text-primary-foreground">
+                                {Icon && <Icon className="h-4 w-4" />}
+                                {link.title}
+                              </Badge>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )
+                  );
+                })()}
               </div>
             </TimelineItem>
           ))}

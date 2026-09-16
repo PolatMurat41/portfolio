@@ -7,13 +7,30 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { DATA } from "@/data/resume";
+import { getSocialLinks } from "@/lib/data";
+import { getIcon } from "@/lib/icon-registry";
+import { HomeIcon, NotebookIcon } from "lucide-react";
 
-export default function Navbar() {
+const NAVBAR_ITEMS = [
+  { href: "/", icon: HomeIcon, label: "Home" },
+  { href: "/blog", icon: NotebookIcon, label: "Blog" },
+];
+
+const SOCIAL_ICON_KEY: Record<string, string> = {
+  GitHub: "github",
+  LinkedIn: "linkedin",
+  X: "x",
+  Youtube: "youtube",
+  Email: "email",
+};
+
+export default async function Navbar() {
+  const socialLinks = await getSocialLinks();
+
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-4 z-30">
       <Dock className="z-50 pointer-events-auto relative h-14 p-2 w-fit mx-auto flex gap-2 border bg-card/90 backdrop-blur-3xl shadow-[0_0_10px_3px] shadow-primary/5">
-        {DATA.navbar.map((item) => {
+        {NAVBAR_ITEMS.map((item) => {
           const isExternal = item.href.startsWith("http");
           return (
             <Tooltip key={item.href}>
@@ -39,17 +56,15 @@ export default function Navbar() {
             </Tooltip>
           );
         })}
-        <Separator
-          orientation="vertical"
-          className="h-2/3 m-auto w-px bg-border"
-        />
-        {Object.entries(DATA.contact.social)
-          .filter(([_, social]) => social.navbar)
-          .map(([name, social], index) => {
+        <Separator orientation="vertical" className="h-2/3 m-auto w-px bg-border" />
+        {socialLinks
+          .filter((social) => social.showInNavbar)
+          .map((social) => {
             const isExternal = social.url.startsWith("http");
-            const IconComponent = social.icon;
+            const IconComponent = getIcon(SOCIAL_ICON_KEY[social.platform]);
+            if (!IconComponent) return null;
             return (
-              <Tooltip key={`social-${name}-${index}`}>
+              <Tooltip key={social.id}>
                 <TooltipTrigger asChild>
                   <a
                     href={social.url}
@@ -66,16 +81,13 @@ export default function Navbar() {
                   sideOffset={8}
                   className="rounded-xl bg-primary text-primary-foreground px-4 py-2 text-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]"
                 >
-                  <p>{name}</p>
+                  <p>{social.platform}</p>
                   <TooltipArrow className="fill-primary" />
                 </TooltipContent>
               </Tooltip>
             );
           })}
-        <Separator
-          orientation="vertical"
-          className="h-2/3 m-auto w-px bg-border"
-        />
+        <Separator orientation="vertical" className="h-2/3 m-auto w-px bg-border" />
         <Tooltip>
           <TooltipTrigger asChild>
             <DockIcon className="rounded-3xl cursor-pointer size-full bg-background p-0 text-muted-foreground hover:text-foreground hover:bg-muted backdrop-blur-3xl border border-border transition-colors">

@@ -16,30 +16,24 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-interface SortableListItem {
+export interface SortableListEntry {
   id: string;
+  label: string;
+  content: React.ReactNode;
 }
 
-interface SortableListProps<T extends SortableListItem> {
-  items: T[];
+interface SortableListProps {
+  items: SortableListEntry[];
   basePath: string;
   apiPath: string;
-  renderItem: (item: T) => React.ReactNode;
-  renderLabel: (item: T) => string;
 }
 
-export function SortableList<T extends SortableListItem>({
-  items: initialItems,
-  basePath,
-  apiPath,
-  renderItem,
-  renderLabel,
-}: SortableListProps<T>) {
+export function SortableList({ items: initialItems, basePath, apiPath }: SortableListProps) {
   const [items, setItems] = useState(initialItems);
   const [error, setError] = useState<string | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
 
-  async function persistOrder(next: T[]) {
+  async function persistOrder(next: SortableListEntry[]) {
     const previous = items;
     setItems(next);
     setError(null);
@@ -96,7 +90,7 @@ export function SortableList<T extends SortableListItem>({
                 <ArrowDown className="size-4" />
               </button>
             </div>
-            <div className="flex-1 min-w-0">{renderItem(item)}</div>
+            <div className="flex-1 min-w-0">{item.content}</div>
             <Link href={`${basePath}/${item.id}`} className="text-muted-foreground hover:text-foreground" aria-label="Edit">
               <Pencil className="size-4" />
             </Link>
@@ -110,7 +104,7 @@ export function SortableList<T extends SortableListItem>({
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete this item?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    &quot;{renderLabel(item)}&quot; will be permanently deleted. This cannot be undone.
+                    &quot;{item.label}&quot; will be permanently deleted. This cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

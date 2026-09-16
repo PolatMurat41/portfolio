@@ -7,18 +7,20 @@ export default async function EducationListPage() {
     <div className="flex flex-col gap-6">
       <h1 className="text-xl font-semibold">Education</h1>
       <SortableList
-        items={items}
         basePath="/admin/education"
         apiPath="/api/admin/education"
-        renderLabel={(item) => item.school}
-        renderItem={(item) => (
-          <div className="flex flex-col">
-            <span className="font-medium">{item.school}</span>
-            <span className="text-sm text-muted-foreground">
-              {item.degree} · {item.start} - {item.end}
-            </span>
-          </div>
-        )}
+        items={items.map((item) => ({
+          id: item.id,
+          label: item.school,
+          content: (
+            <div className="flex flex-col">
+              <span className="font-medium">{item.school}</span>
+              <span className="text-sm text-muted-foreground">
+                {item.degree} · {item.start} - {item.end}
+              </span>
+            </div>
+          ),
+        }))}
       />
     </div>
   );

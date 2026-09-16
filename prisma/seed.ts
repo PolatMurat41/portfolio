@@ -1,3 +1,7 @@
+// HISTORICAL MIGRATION SCRIPT — already run once against the local/production
+// database. It imported src/data/resume.tsx and content/*.mdx, both deleted
+// in the same commit that finished the admin panel migration. Do not re-run;
+// kept only as a record of how the original seed was derived.
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { prisma } from "../src/lib/prisma";

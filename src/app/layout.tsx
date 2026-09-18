@@ -8,6 +8,12 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 
+// All content (profile, work, blog, etc.) is admin-editable and read from
+// Postgres on every request — force dynamic rendering site-wide so edits
+// show up immediately instead of waiting for the next deploy's static cache
+// to expire. This propagates to every nested route (public and /admin).
+export const dynamic = "force-dynamic";
+
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-sans",

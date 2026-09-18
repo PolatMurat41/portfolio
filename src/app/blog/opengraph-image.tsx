@@ -2,6 +2,7 @@
 import { ImageResponse } from "next/og";
 import { getProfile } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
 export const alt = "Blog";
 export const size = {
     width: 1200,

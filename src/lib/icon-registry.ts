@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { GlobeIcon } from "lucide-react";
+import { GlobeIcon, Database, Zap, Gauge, Activity, BarChart3 } from "lucide-react";
 import { Icons } from "@/components/icons";
 import { ReactLight } from "@/components/ui/svgs/reactLight";
 import { NextjsIconDark } from "@/components/ui/svgs/nextjsIconDark";
@@ -30,7 +30,16 @@ export type IconKey =
   | "linkedin"
   | "x"
   | "youtube"
-  | "email";
+  | "email"
+  | "fastapi"
+  | "langchain"
+  | "langgraph"
+  | "vllm"
+  | "llamaindex"
+  | "litellm"
+  | "ragas"
+  | "langfuse"
+  | "powerbi";
 
 type IconComponent = ComponentType<{ className?: string }>;
 
@@ -52,6 +61,16 @@ export const ICON_REGISTRY: Record<IconKey, IconComponent> = {
   x: Icons.x,
   youtube: Icons.youtube,
   email: Icons.email,
+  fastapi: Icons.fastapi,
+  langchain: Icons.langchain,
+  langgraph: Icons.langgraph,
+  vllm: Icons.vllm,
+  // No official brand mark available for these — closest-fitting Lucide icon instead of a fabricated logo.
+  llamaindex: Database,
+  litellm: Zap,
+  ragas: Gauge,
+  langfuse: Activity,
+  powerbi: BarChart3,
 };
 
 export const ICON_KEYS = Object.keys(ICON_REGISTRY) as IconKey[];

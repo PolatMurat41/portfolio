@@ -16,10 +16,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Password is required" }, { status: 400 });
   }
 
-  const hash = process.env.ADMIN_PASSWORD_HASH;
-  if (!hash) {
+  const encodedHash = process.env.ADMIN_PASSWORD_HASH;
+  if (!encodedHash) {
     return NextResponse.json({ error: "Server is not configured" }, { status: 500 });
   }
+
+  // Stored base64-encoded: some deployment env var pipelines mangle raw
+  // bcrypt hashes because of the literal "$" characters in them.
+  const hash = Buffer.from(encodedHash, "base64").toString("utf-8");
 
   const valid = await bcrypt.compare(parsed.data.password, hash);
   if (!valid) {

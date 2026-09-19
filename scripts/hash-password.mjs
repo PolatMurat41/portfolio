@@ -7,4 +7,8 @@ if (!password) {
 }
 
 const hash = await bcrypt.hash(password, 12);
-console.log(hash);
+// Base64-encoded: raw bcrypt hashes contain literal "$" characters that
+// some deployment env var input pipelines (e.g. Vercel's CLI/API) have
+// been observed to truncate or corrupt. ADMIN_PASSWORD_HASH is decoded
+// from base64 at login time (see src/app/api/admin/login/route.ts).
+console.log(Buffer.from(hash, "utf-8").toString("base64"));

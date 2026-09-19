@@ -4,7 +4,7 @@ import { getSocialLinks } from "@/lib/data";
 
 export default async function ContactSection() {
   const socialLinks = await getSocialLinks();
-  const xLink = socialLinks.find((social) => social.platform === "X");
+  const emailLink = socialLinks.find((social) => social.platform === "Email");
 
   return (
     <div className="border rounded-xl p-10 relative">
@@ -25,15 +25,13 @@ export default async function ContactSection() {
       <div className="relative flex flex-col items-center gap-4 text-center">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Get in Touch</h2>
         <p className="mx-auto max-w-lg text-muted-foreground text-balance">
-          Want to chat? Just shoot me a dm{" "}
-          {xLink && (
+          Want to chat? Just shoot me{" "}
+          {emailLink && (
             <Link
-              href={xLink.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={emailLink.url}
               className="text-blue-500 hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
             >
-              with a direct question on twitter
+              an email
             </Link>
           )}{" "}
           and I&apos;ll respond whenever I can. I will ignore all soliciting.

@@ -7,6 +7,15 @@ import { translations } from "@/lib/translations";
 
 const BLUR_FADE_DELAY = 0.04;
 
+const PROJECT_SCREENSHOTS: Record<string, string> = {
+  skorunkalbi: "/projects/skorunkalbi.png",
+  "bi-lgi-cefis": "/projects/bi-lgi-cefis.png",
+  "bilgi-running-community": "/projects/bilgi-running-community.png",
+  "rafine-s-v-tuz": "/projects/rafine-s-v-tuz.png",
+  "end-striyel-s-t-tedarik": "/projects/end-striyel-s-t-tedarik.png",
+  adiatank: "/projects/adiatank.png",
+};
+
 interface Project {
   id: string;
   title: string;
@@ -54,6 +63,7 @@ export function ProjectsSectionClient({ projects }: { projects: Project[] }) {
 
             const displayTitle = localized?.title || project.title;
             const displayDesc = localized?.description || project.description;
+            const displayImage = project.image || PROJECT_SCREENSHOTS[slug] || "";
 
             return (
               <BlurFade key={project.id} delay={BLUR_FADE_DELAY * 12 + id * 0.05} className="h-full">
@@ -63,7 +73,7 @@ export function ProjectsSectionClient({ projects }: { projects: Project[] }) {
                   description={displayDesc}
                   dates={project.dates}
                   tags={project.technologies}
-                  image={project.image}
+                  image={displayImage}
                   video={project.video}
                   links={project.links as { type: string; href: string; iconKey: string }[]}
                 />

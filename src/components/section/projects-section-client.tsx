@@ -12,6 +12,8 @@ const PROJECT_SCREENSHOTS: Record<string, string> = {
   "bi-lgi-cefis": "/projects/bi-lgi-cefis.png",
   "bilgi-running-community": "/projects/bilgi-running-community.png",
   "rafine-s-v-tuz": "/projects/rafine-s-v-tuz.png",
+  "korfez-kuyumculuk": "/projects/korfez-kuyumculuk.png",
+  "k-rfez-kuyumculuk": "/projects/korfez-kuyumculuk.png",
   "end-striyel-s-t-tedarik": "/projects/end-striyel-s-t-tedarik.png",
   adiatank: "/projects/adiatank.png",
 };

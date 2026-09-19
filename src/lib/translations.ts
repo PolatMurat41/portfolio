@@ -60,6 +60,14 @@ Banka iştiraki bünyesinde üretime hazır (production-ready) AI sistemler geli
           title: "Endüstriyel Süt Tedarik",
           description: "Büyük ölçekli endüstriyel süt üretim ve toplu tedarik operasyonlarını yöneten kurumsal web sitesi.",
         },
+        "k-rfez-kuyumculuk": {
+          title: "Körfez Kuyumculuk",
+          description: "Karamürsel Körfez Kuyumculuk için geliştirilen, özel altın ve mücevher koleksiyonları ile anlık canlı altın fiyatlarını sunan lüks e-ticaret ve kurumsal vitrin platformu.",
+        },
+        "korfez-kuyumculuk": {
+          title: "Körfez Kuyumculuk",
+          description: "Karamürsel Körfez Kuyumculuk için geliştirilen, özel altın ve mücevher koleksiyonları ile anlık canlı altın fiyatlarını sunan lüks e-ticaret ve kurumsal vitrin platformu.",
+        },
         "adiatank": {
           title: "Adiatank",
           description: "Modüler su depolama tankları, su rezervuarları ve kanal sistemleri imalatçısı için geliştirilen kurumsal web platformu.",
@@ -160,6 +168,14 @@ I develop production-ready AI systems at a leading banking subsidiary, integrati
         "end-striyel-s-t-tedarik": {
           title: "Endüstriyel Süt Tedarik",
           description: "Corporate website for a major industrial milk supply and distribution company.",
+        },
+        "k-rfez-kuyumculuk": {
+          title: "Körfez Kuyumculuk",
+          description: "Luxury e-commerce and corporate showcase platform developed for Körfez Kuyumculuk in Karamürsel, featuring bespoke fine jewelry collections and real-time live gold prices.",
+        },
+        "korfez-kuyumculuk": {
+          title: "Körfez Kuyumculuk",
+          description: "Luxury e-commerce and corporate showcase platform developed for Körfez Kuyumculuk in Karamürsel, featuring bespoke fine jewelry collections and real-time live gold prices.",
         },
         "adiatank": {
           title: "Adiatank",

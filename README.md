@@ -62,7 +62,8 @@ Copy `.env.example` to `.env` and fill in:
 | `POSTGRES_PRISMA_URL` | From your Vercel Postgres integration (`vercel env pull .env` if the project is linked, or the Vercel dashboard's `.env.local` tab) |
 | `POSTGRES_URL_NON_POOLING` | Same place as above |
 | `SESSION_SECRET` | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
-| `ADMIN_PASSWORD_HASH` | `node scripts/hash-password.mjs <your-password>` |
+| `ADMIN_PASSWORD_HASH` | `node scripts/hash-password.mjs <your-password>` (already base64-encoded — paste the output as-is) |
+| `BLOB_READ_WRITE_TOKEN` | Storage tab → Create Database → Blob → set access to **Public** → Connect Project. Needed for the admin panel's image upload button (Profile avatar). |
 
 ## First-time setup
 

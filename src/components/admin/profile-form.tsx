@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ImageUploadField } from "@/components/admin/image-upload-field";
 
 export interface ProfileFormValues {
   name: string;
@@ -102,10 +103,12 @@ export function ProfileForm({
           <Label htmlFor="summary">About Summary (Markdown)</Label>
           <Textarea id="summary" rows={6} value={profile.summary} onChange={(e) => setProfile({ ...profile, summary: e.target.value })} required />
         </div>
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="avatarUrl">Avatar URL</Label>
-          <Input id="avatarUrl" value={profile.avatarUrl} onChange={(e) => setProfile({ ...profile, avatarUrl: e.target.value })} required />
-        </div>
+        <ImageUploadField
+          id="avatarUrl"
+          label="Avatar"
+          value={profile.avatarUrl}
+          onChange={(avatarUrl) => setProfile({ ...profile, avatarUrl })}
+        />
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="email">Email</Label>

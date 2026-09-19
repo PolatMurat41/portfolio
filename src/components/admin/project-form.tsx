@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { IconSelect } from "@/components/ui/icon-select";
+import { ImageUploadField } from "@/components/admin/image-upload-field";
 import type { IconKey } from "@/lib/icon-registry";
 import { Trash2, Plus } from "lucide-react";
 
@@ -110,10 +111,12 @@ export function ProjectForm({ initialValues }: { initialValues?: ProjectFormValu
           onChange={(e) => setValues({ ...values, technologies: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })}
         />
       </div>
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="image">Image URL</Label>
-        <Input id="image" value={values.image} onChange={(e) => setValues({ ...values, image: e.target.value })} />
-      </div>
+      <ImageUploadField
+        id="image"
+        label="Image"
+        value={values.image}
+        onChange={(image) => setValues({ ...values, image })}
+      />
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="video">Video URL</Label>
         <Input id="video" value={values.video} onChange={(e) => setValues({ ...values, video: e.target.value })} />

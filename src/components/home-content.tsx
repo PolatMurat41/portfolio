@@ -1,25 +1,78 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
+
 import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getProfile, getEducation, getSkills } from "@/lib/data";
+import { useLanguage } from "@/context/language-context";
 import { getIcon } from "@/lib/icon-registry";
+import { translations } from "@/lib/translations";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Markdown from "react-markdown";
-import ContactSection from "@/components/section/contact-section";
-import HackathonsSection from "@/components/section/hackathons-section";
-import ProjectsSection from "@/components/section/projects-section";
-import WorkSection from "@/components/section/work-section";
-import { ArrowUpRight } from "lucide-react";
 
 const BLUR_FADE_DELAY = 0.04;
 
-export default async function Page() {
-  const [profile, education, skills] = await Promise.all([
-    getProfile(),
-    getEducation(),
-    getSkills(),
-  ]);
+interface Profile {
+  id: number;
+  name: string;
+  initials: string;
+  url: string;
+  location: string;
+  locationLink: string;
+  description: string;
+  summary: string;
+  avatarUrl: string;
+  email: string;
+  tel: string;
+}
+
+interface Education {
+  id: string;
+  school: string;
+  href: string;
+  degree: string;
+  logoUrl: string;
+  start: string;
+  end: string;
+  sortOrder: number;
+}
+
+interface Skill {
+  id: string;
+  name: string;
+  iconKey: string;
+  sortOrder: number;
+}
+
+interface HomeContentProps {
+  profile: Profile;
+  education: Education[];
+  skills: Skill[];
+  workComponent: React.ReactNode;
+  projectsComponent: React.ReactNode;
+  articlesComponent: React.ReactNode;
+  hackathonsComponent: React.ReactNode;
+  contactComponent: React.ReactNode;
+}
+
+export function HomeContent({
+  profile,
+  education,
+  skills,
+  workComponent,
+  projectsComponent,
+  articlesComponent,
+  hackathonsComponent,
+  contactComponent,
+}: HomeContentProps) {
+  const { language } = useLanguage();
+  const t = translations[language];
+
+  // Dynamic summary based on selected language
+  const activeSummary = t.about.summary;
+  const activeGreeting = `${t.hero.greeting} ${profile.name.split(" ")[0]}`;
+  const activeDescription = language === "tr" ? "Yapay Zeka Mühendisi | Kurumsal AI Çözümleri | Full Stack AI Engineer" : profile.description;
 
   return (
     <main className="min-h-dvh flex flex-col gap-14 relative">
@@ -31,12 +84,12 @@ export default async function Page() {
                 delay={BLUR_FADE_DELAY}
                 className="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl"
                 yOffset={8}
-                text={`Hi, I'm ${profile.name.split(" ")[0]}`}
+                text={activeGreeting}
               />
               <BlurFadeText
                 className="text-muted-foreground max-w-[600px] md:text-lg lg:text-xl"
                 delay={BLUR_FADE_DELAY}
-                text={profile.description}
+                text={activeDescription}
               />
             </div>
             <BlurFade delay={BLUR_FADE_DELAY} className="order-1 md:order-2">
@@ -48,32 +101,35 @@ export default async function Page() {
           </div>
         </div>
       </section>
+
       <section id="about">
         <div className="flex min-h-0 flex-col gap-y-4">
           <BlurFade delay={BLUR_FADE_DELAY * 3}>
-            <h2 className="text-xl font-bold">About</h2>
+            <h2 className="text-xl font-bold">{t.about.title}</h2>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 4}>
             <div className="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
-              <Markdown>{profile.summary}</Markdown>
+              <Markdown>{activeSummary}</Markdown>
             </div>
           </BlurFade>
         </div>
       </section>
+
       <section id="work">
         <div className="flex min-h-0 flex-col gap-y-6">
           <BlurFade delay={BLUR_FADE_DELAY * 5}>
-            <h2 className="text-xl font-bold">Work Experience</h2>
+            <h2 className="text-xl font-bold">{t.work.title}</h2>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 6}>
-            <WorkSection />
+            {workComponent}
           </BlurFade>
         </div>
       </section>
+
       <section id="education">
         <div className="flex min-h-0 flex-col gap-y-6">
           <BlurFade delay={BLUR_FADE_DELAY * 7}>
-            <h2 className="text-xl font-bold">Education</h2>
+            <h2 className="text-xl font-bold">{t.education.title}</h2>
           </BlurFade>
           <div className="flex flex-col gap-8">
             {education.map((item, index) => (
@@ -113,10 +169,11 @@ export default async function Page() {
           </div>
         </div>
       </section>
+
       <section id="skills">
         <div className="flex min-h-0 flex-col gap-y-4">
           <BlurFade delay={BLUR_FADE_DELAY * 9}>
-            <h2 className="text-xl font-bold">Skills</h2>
+            <h2 className="text-xl font-bold">{t.skills.title}</h2>
           </BlurFade>
           <div className="flex flex-wrap gap-2">
             {skills.map((skill, id) => {
@@ -133,19 +190,27 @@ export default async function Page() {
           </div>
         </div>
       </section>
+
       <section id="projects">
         <BlurFade delay={BLUR_FADE_DELAY * 11}>
-          <ProjectsSection />
+          {projectsComponent}
         </BlurFade>
       </section>
+
+      {/* DEDICATED ARTICLES SECTION */}
+      <section id="articles-section">
+        {articlesComponent}
+      </section>
+
       <section id="hackathons">
         <BlurFade delay={BLUR_FADE_DELAY * 13}>
-          <HackathonsSection />
+          {hackathonsComponent}
         </BlurFade>
       </section>
+
       <section id="contact">
         <BlurFade delay={BLUR_FADE_DELAY * 16}>
-          <ContactSection />
+          {contactComponent}
         </BlurFade>
       </section>
     </main>

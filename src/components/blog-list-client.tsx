@@ -1,49 +1,53 @@
+"use client";
+
 import BlurFade from "@/components/magicui/blur-fade";
-import { getPublishedPosts } from "@/lib/data";
-import Link from "next/link";
-import type { Metadata } from "next";
-import { paginate, normalizePage } from "@/lib/pagination";
+import { useLanguage } from "@/context/language-context";
+import { translations } from "@/lib/translations";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description: "Thoughts on software development, life, and more.",
-  openGraph: {
-    title: "Blog",
-    description: "Thoughts on software development, life, and more.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog",
-    description: "Thoughts on software development, life, and more.",
-  },
-};
-
-const PAGE_SIZE = 5;
 const BLUR_FADE_DELAY = 0.04;
+const PAGE_SIZE = 5;
 
-export default async function BlogPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string }>;
-}) {
-  const { page: pageParam } = await searchParams;
-  const sortedPosts = await getPublishedPosts();
+interface BlogPostItem {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  publishedAt: string | null;
+}
 
-  const totalPages = Math.ceil(sortedPosts.length / PAGE_SIZE);
-  const currentPage = normalizePage(pageParam, totalPages);
-  const { items: paginatedPosts, pagination } = paginate(sortedPosts, {
-    page: currentPage,
-    pageSize: PAGE_SIZE,
-  });
+interface BlogListClientProps {
+  totalCount: number;
+  paginatedPosts: BlogPostItem[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    totalItems: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+}
+
+export function BlogListClient({
+  totalCount,
+  paginatedPosts,
+  pagination,
+}: BlogListClientProps) {
+  const { language } = useLanguage();
+  const t = translations[language].blogPage;
 
   return (
     <section id="blog">
       <BlurFade delay={BLUR_FADE_DELAY}>
         <h1 className="text-2xl font-semibold tracking-tight mb-2">
-          Blog <span className="ml-1 bg-card border border-border rounded-md px-2 py-1 text-muted-foreground text-sm">{sortedPosts.length} posts</span>
+          {t.title}{" "}
+          <span className="ml-1 bg-card border border-border rounded-md px-2 py-1 text-muted-foreground text-sm">
+            {totalCount} {t.postsCount}
+          </span>
         </h1>
-        <p className="text-sm text-muted-foreground mb-8">My thoughts on software development, life, and more.</p>
+        <p className="text-sm text-muted-foreground mb-8">{t.subtitle}</p>
       </BlurFade>
 
       {paginatedPosts.length > 0 ? (
@@ -71,9 +75,14 @@ export default async function BlogPage({
                             />
                           </span>
                         </p>
-                        <p className="text-xs text-muted-foreground">
-                          {post.publishedAt?.toISOString().slice(0, 10)}
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {post.summary}
                         </p>
+                        {post.publishedAt && (
+                          <p className="text-xs text-muted-foreground font-mono">
+                            {post.publishedAt.slice(0, 10)}
+                          </p>
+                        )}
                       </div>
                     </Link>
                   </BlurFade>
@@ -86,7 +95,7 @@ export default async function BlogPage({
             <BlurFade delay={BLUR_FADE_DELAY * 4}>
               <div className="flex gap-3 flex-row items-center justify-between mt-8">
                 <div className="text-sm text-muted-foreground">
-                  Page {pagination.page} of {pagination.totalPages}
+                  {t.page} {pagination.page} {t.of} {pagination.totalPages}
                 </div>
                 <div className="flex gap-2 sm:justify-end">
                   {pagination.hasPreviousPage ? (
@@ -94,11 +103,11 @@ export default async function BlogPage({
                       href={`/blog?page=${pagination.page - 1}`}
                       className="h-8 w-fit px-2 flex items-center justify-center text-sm border border-border rounded-lg hover:bg-accent/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
-                      Previous
+                      {t.previous}
                     </Link>
                   ) : (
                     <span className="h-8 w-fit px-2 flex items-center justify-center text-sm border border-border rounded-lg opacity-50 cursor-not-allowed">
-                      Previous
+                      {t.previous}
                     </span>
                   )}
                   {pagination.hasNextPage ? (
@@ -106,11 +115,11 @@ export default async function BlogPage({
                       href={`/blog?page=${pagination.page + 1}`}
                       className="h-8 w-fit px-2 flex items-center justify-center text-sm border border-border rounded-lg hover:bg-accent/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
-                      Next
+                      {t.next}
                     </Link>
                   ) : (
                     <span className="h-8 w-fit px-2 flex items-center justify-center text-sm border border-border rounded-lg opacity-50 cursor-not-allowed">
-                      Next
+                      {t.next}
                     </span>
                   )}
                 </div>
@@ -121,7 +130,7 @@ export default async function BlogPage({
       ) : (
         <BlurFade delay={BLUR_FADE_DELAY * 2}>
           <div className="flex flex-col items-center justify-center py-12 px-4 border border-border rounded-xl">
-            <p className="text-muted-foreground text-center">No blog posts yet. Check back soon!</p>
+            <p className="text-muted-foreground text-center">{t.noPosts}</p>
           </div>
         </BlurFade>
       )}

@@ -1,6 +1,28 @@
 import { prisma } from "@/lib/prisma";
 
+let schemaEnsured = false;
+export async function ensureSchemaColumns() {
+  if (schemaEnsured) return;
+  try {
+    await prisma.$executeRawUnsafe(`
+      ALTER TABLE "Profile" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;
+      ALTER TABLE "Profile" ADD COLUMN IF NOT EXISTS "summaryEn" TEXT;
+      ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;
+      ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;
+      ALTER TABLE "WorkExperience" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;
+      ALTER TABLE "WorkExperience" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;
+      ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;
+      ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "summaryEn" TEXT;
+      ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "contentEn" TEXT;
+    `);
+    schemaEnsured = true;
+  } catch {
+    // ignore
+  }
+}
+
 export async function getProfile() {
+  await ensureSchemaColumns();
   const profile = await prisma.profile.findUnique({ where: { id: 1 } });
   if (!profile) {
     throw new Error("Profile is not seeded yet. Run: pnpm prisma db seed");

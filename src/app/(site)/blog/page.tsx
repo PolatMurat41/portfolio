@@ -38,7 +38,9 @@ export default async function BlogPage({
     id: p.id,
     slug: p.slug,
     title: p.title,
+    titleEn: (p as any).titleEn ?? null,
     summary: p.summary,
+    summaryEn: (p as any).summaryEn ?? null,
     publishedAt: p.publishedAt ? p.publishedAt.toISOString() : null,
   }));
 

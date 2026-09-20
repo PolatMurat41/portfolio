@@ -13,7 +13,9 @@ interface BlogPostItem {
   id: string;
   slug: string;
   title: string;
+  titleEn?: string | null;
   summary: string;
+  summaryEn?: string | null;
   publishedAt: string | null;
 }
 
@@ -56,6 +58,11 @@ export function BlogListClient({
             <div className="flex flex-col gap-5">
               {paginatedPosts.map((post, id) => {
                 const indexNumber = (pagination.page - 1) * PAGE_SIZE + id + 1;
+                const displayTitle =
+                  language === "en" ? post.titleEn || post.title : post.title;
+                const displaySummary =
+                  language === "en" ? post.summaryEn || post.summary : post.summary;
+
                 return (
                   <BlurFade delay={BLUR_FADE_DELAY * 3 + id * 0.05} key={post.slug}>
                     <Link
@@ -68,7 +75,7 @@ export function BlogListClient({
                       <div className="flex flex-col gap-y-2 flex-1">
                         <p className="tracking-tight text-lg font-medium">
                           <span className="group-hover:text-foreground transition-colors">
-                            {post.title}
+                            {displayTitle}
                             <ChevronRight
                               className="ml-1 inline-block size-4 stroke-3 text-muted-foreground opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0"
                               aria-hidden
@@ -76,7 +83,7 @@ export function BlogListClient({
                           </span>
                         </p>
                         <p className="text-sm text-muted-foreground line-clamp-2">
-                          {post.summary}
+                          {displaySummary}
                         </p>
                         {post.publishedAt && (
                           <p className="text-xs text-muted-foreground font-mono">

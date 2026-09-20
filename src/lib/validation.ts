@@ -17,10 +17,12 @@ export const workSchema = z.object({
   href: z.string().url(),
   location: z.string().min(1),
   title: z.string().min(1),
+  titleEn: z.string().optional().nullable(),
   logoUrl: z.string().min(1),
   start: z.string().min(1),
   end: z.string().min(1),
   description: z.string().min(1),
+  descriptionEn: z.string().optional().nullable(),
   badges: z.array(z.string()).default([]),
 });
 export type WorkInput = z.infer<typeof workSchema>;
@@ -43,10 +45,12 @@ export type SkillInput = z.infer<typeof skillSchema>;
 
 export const projectSchema = z.object({
   title: z.string().min(1),
+  titleEn: z.string().optional().nullable(),
   href: z.string().url(),
   dates: z.string().min(1),
   active: z.boolean().default(false),
   description: z.string().min(1),
+  descriptionEn: z.string().optional().nullable(),
   technologies: z.array(z.string()).default([]),
   image: z.string().default(""),
   video: z.string().default(""),
@@ -72,8 +76,11 @@ export const blogPostSchema = z.object({
     .min(1)
     .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase, letters/numbers/hyphens only"),
   title: z.string().min(1),
+  titleEn: z.string().optional().nullable(),
   summary: z.string().min(1),
+  summaryEn: z.string().optional().nullable(),
   content: z.string().min(1),
+  contentEn: z.string().optional().nullable(),
   image: z.string().optional().nullable(),
   draft: z.boolean().default(true),
 });
@@ -86,7 +93,9 @@ export const profileSchema = z.object({
   location: z.string().min(1),
   locationLink: z.string().url(),
   description: z.string().min(1),
+  descriptionEn: z.string().optional().nullable(),
   summary: z.string().min(1),
+  summaryEn: z.string().optional().nullable(),
   avatarUrl: z.string().min(1),
   email: z.string().email(),
   tel: z.string().min(1),

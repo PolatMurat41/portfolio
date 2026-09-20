@@ -9,18 +9,20 @@ datasource db {
 }
 
 model Profile {
-  id           Int      @id @default(1)
-  name         String
-  initials     String
-  url          String
-  location     String
-  locationLink String
-  description  String
-  summary      String
-  avatarUrl    String
-  email        String
-  tel          String
-  updatedAt    DateTime @updatedAt
+  id            Int      @id @default(1)
+  name          String
+  initials      String
+  url           String
+  location      String
+  locationLink  String
+  description   String
+  descriptionEn String?
+  summary       String
+  summaryEn     String?
+  avatarUrl     String
+  email         String
+  tel           String
+  updatedAt     DateTime @updatedAt
 }
 
 enum SocialPlatform {
@@ -46,17 +48,19 @@ model Skill {
 }
 
 model WorkExperience {
-  id          String   @id @default(cuid())
-  company     String
-  href        String
-  location    String
-  title       String
-  logoUrl     String
-  start       String
-  end         String
-  description String
-  badges      String[]
-  sortOrder   Int      @default(0)
+  id            String   @id @default(cuid())
+  company       String
+  href          String
+  location      String
+  title         String
+  titleEn       String?
+  logoUrl       String
+  start         String
+  end           String
+  description   String
+  descriptionEn String?
+  badges        String[]
+  sortOrder     Int      @default(0)
 }
 
 model Education {
@@ -71,17 +75,19 @@ model Education {
 }
 
 model Project {
-  id           String   @id @default(cuid())
-  title        String
-  href         String
-  dates        String
-  active       Boolean  @default(false)
-  description  String
-  technologies String[]
-  image        String
-  video        String
-  links        Json
-  sortOrder    Int      @default(0)
+  id            String   @id @default(cuid())
+  title         String
+  titleEn       String?
+  href          String
+  dates         String
+  active        Boolean  @default(false)
+  description   String
+  descriptionEn String?
+  technologies  String[]
+  image         String
+  video         String
+  links         Json
+  sortOrder     Int      @default(0)
 }
 
 model Hackathon {
@@ -101,8 +107,11 @@ model BlogPost {
   id          String    @id @default(cuid())
   slug        String    @unique
   title       String
+  titleEn     String?
   summary     String
+  summaryEn   String?
   content     String
+  contentEn   String?
   image       String?
   draft       Boolean   @default(true)
   publishedAt DateTime?

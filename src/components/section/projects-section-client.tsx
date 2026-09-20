@@ -21,10 +21,12 @@ const PROJECT_SCREENSHOTS: Record<string, string> = {
 interface Project {
   id: string;
   title: string;
+  titleEn?: string | null;
   href: string;
   dates: string;
   active: boolean;
   description: string;
+  descriptionEn?: string | null;
   technologies: string[];
   image: string;
   video: string;
@@ -56,15 +58,21 @@ export function ProjectsSectionClient({ projects }: { projects: Project[] }) {
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-[800px] mx-auto auto-rows-fr">
           {projects.map((project, id) => {
-            // Check if we have translated title or description
             const slug = project.title
               .toLowerCase()
               .replace(/[^a-z0-9]+/g, "-")
               .replace(/(^-|-$)/g, "");
             const localized = (t.items as any)[slug];
 
-            const displayTitle = localized?.title || project.title;
-            const displayDesc = localized?.description || project.description;
+            // Priority: DB English field -> fallback dictionary -> primary DB field
+            const displayTitle =
+              language === "en"
+                ? project.titleEn || localized?.title || project.title
+                : project.title;
+            const displayDesc =
+              language === "en"
+                ? project.descriptionEn || localized?.description || project.description
+                : project.description;
             const displayImage = project.image || PROJECT_SCREENSHOTS[slug] || "";
 
             return (

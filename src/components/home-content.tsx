@@ -21,7 +21,9 @@ interface Profile {
   location: string;
   locationLink: string;
   description: string;
+  descriptionEn?: string | null;
   summary: string;
+  summaryEn?: string | null;
   avatarUrl: string;
   email: string;
   tel: string;
@@ -69,10 +71,16 @@ export function HomeContent({
   const { language } = useLanguage();
   const t = translations[language];
 
-  // Dynamic summary based on selected language
-  const activeSummary = t.about.summary;
+  // Dynamic summary based on selected language, reading directly from database
+  const activeSummary =
+    language === "en"
+      ? profile.summaryEn || t.about.summary
+      : profile.summary || t.about.summary;
   const activeGreeting = `${t.hero.greeting} ${profile.name.split(" ")[0]}`;
-  const activeDescription = language === "tr" ? "Yapay Zeka Mühendisi | Kurumsal AI Çözümleri | Full Stack AI Engineer" : profile.description;
+  const activeDescription =
+    language === "en"
+      ? profile.descriptionEn || profile.description
+      : profile.description;
 
   return (
     <main className="min-h-dvh flex flex-col gap-14 relative">

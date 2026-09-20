@@ -3,22 +3,25 @@ import { prisma } from "@/lib/prisma";
 let schemaEnsured = false;
 export async function ensureSchemaColumns() {
   if (schemaEnsured) return;
-  try {
-    await prisma.$executeRawUnsafe(`
-      ALTER TABLE "Profile" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;
-      ALTER TABLE "Profile" ADD COLUMN IF NOT EXISTS "summaryEn" TEXT;
-      ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;
-      ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;
-      ALTER TABLE "WorkExperience" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;
-      ALTER TABLE "WorkExperience" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;
-      ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;
-      ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "summaryEn" TEXT;
-      ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "contentEn" TEXT;
-    `);
-    schemaEnsured = true;
-  } catch {
-    // ignore
+  const queries = [
+    `ALTER TABLE "Profile" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;`,
+    `ALTER TABLE "Profile" ADD COLUMN IF NOT EXISTS "summaryEn" TEXT;`,
+    `ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;`,
+    `ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;`,
+    `ALTER TABLE "WorkExperience" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;`,
+    `ALTER TABLE "WorkExperience" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;`,
+    `ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;`,
+    `ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "summaryEn" TEXT;`,
+    `ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "contentEn" TEXT;`,
+  ];
+  for (const q of queries) {
+    try {
+      await prisma.$executeRawUnsafe(q);
+    } catch (e) {
+      console.error("Migration error on query:", q, e);
+    }
   }
+  schemaEnsured = true;
 }
 
 export async function getProfile() {
@@ -39,6 +42,7 @@ export async function getSkills() {
 }
 
 export async function getWorkExperience() {
+  await ensureSchemaColumns();
   return prisma.workExperience.findMany({ orderBy: { sortOrder: "asc" } });
 }
 
@@ -47,6 +51,7 @@ export async function getEducation() {
 }
 
 export async function getProjects() {
+  await ensureSchemaColumns();
   let projects = await prisma.project.findMany({ orderBy: { sortOrder: "asc" } });
 
   // Self-healing migration for Körfez Kuyumculuk & project screenshots
@@ -99,6 +104,7 @@ export async function getHackathons() {
 }
 
 export async function getPublishedPosts() {
+  await ensureSchemaColumns();
   let posts = await prisma.blogPost.findMany({
     where: { draft: false },
     orderBy: { publishedAt: "desc" },

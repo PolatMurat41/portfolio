@@ -123,7 +123,13 @@ export default async function AdminDashboardPage() {
             Hoş geldiniz, {profile?.name || "Murat Can Polat"}. Portföyünüzün tüm bileşenlerini buradan yönetebilirsiniz.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <Button asChild variant="outline" size="sm" className="rounded-xl gap-2 font-medium">
+            <Link href="/admin/chatbot">
+              <Bot className="size-4" />
+              AI Chatbot
+            </Link>
+          </Button>
           <Button asChild size="sm" className="rounded-xl gap-2 font-medium">
             <Link href="/admin/blog/new">
               <PlusCircle className="size-4" />

@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   Bot,
   Inbox,
+  NotebookPen,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -31,6 +32,7 @@ const NAV_ITEMS = [
   { href: "/admin/hackathons", label: "Hackathonlar", icon: Trophy },
   { href: "/admin/chatbot", label: "AI Chatbot", icon: Bot },
   { href: "/admin/messages", label: "Mesajlar", icon: Inbox },
+  { href: "/admin/notes", label: "Özel Notlar", icon: NotebookPen },
 ];
 
 export function AdminSidebar({ unreadMessages = 0 }: { unreadMessages?: number }) {

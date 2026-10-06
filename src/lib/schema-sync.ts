@@ -1,10 +1,11 @@
 import { prisma } from "@/lib/prisma";
+import { FIRST_NOTE_CONTENT, FIRST_NOTE_ID, FIRST_NOTE_TITLE } from "@/lib/first-note";
 
 // Production deploys run `prisma generate && next build` only — migrations
 // are never applied there — so tables and columns added after the initial
 // migration are created at runtime instead. Every statement is idempotent
-// and mirrors prisma/migrations/20261006120000_chatbot_contact_i18n; keep
-// the two in step when editing either. Prisma's raw executor uses prepared
+// and mirrors the migrations after the initial one; keep them in step when
+// editing either. Prisma's raw executor uses prepared
 // statements, so each statement has to be sent on its own.
 const STATEMENTS = [
   `ALTER TABLE "Profile" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT`,
@@ -72,6 +73,26 @@ const STATEMENTS = [
   `CREATE INDEX IF NOT EXISTS "ChatMessage_conversationId_createdAt_idx" ON "ChatMessage"("conversationId", "createdAt")`,
   `CREATE INDEX IF NOT EXISTS "ContactMessage_createdAt_idx" ON "ContactMessage"("createdAt")`,
   `CREATE INDEX IF NOT EXISTS "ContactMessage_ipHash_createdAt_idx" ON "ContactMessage"("ipHash", "createdAt")`,
+  // Created together with its first note, only when the table is missing, so
+  // the seeded note never reappears after being deleted.
+  `DO $sync$
+  BEGIN
+    IF to_regclass('"Note"') IS NULL THEN
+      CREATE TABLE "Note" (
+        "id" TEXT NOT NULL,
+        "title" TEXT NOT NULL,
+        "content" TEXT NOT NULL DEFAULT '',
+        "pinned" BOOLEAN NOT NULL DEFAULT false,
+        "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP(3) NOT NULL,
+        CONSTRAINT "Note_pkey" PRIMARY KEY ("id")
+      );
+      CREATE INDEX "Note_pinned_updatedAt_idx" ON "Note"("pinned", "updatedAt");
+      INSERT INTO "Note" ("id", "title", "content", "pinned", "updatedAt")
+      VALUES ('${FIRST_NOTE_ID}', $title$${FIRST_NOTE_TITLE}$title$, $body$${FIRST_NOTE_CONTENT}$body$, true, CURRENT_TIMESTAMP);
+    END IF;
+  END
+  $sync$`,
 ];
 
 let schemaEnsured: Promise<void> | null = null;

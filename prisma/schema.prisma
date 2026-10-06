@@ -181,3 +181,16 @@ model ContactMessage {
   @@index([createdAt])
   @@index([ipHash, createdAt])
 }
+
+// Private notes for the site owner, edited at /admin/notes. Never rendered on
+// the public site and never included in the chatbot's context.
+model Note {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   @default("")
+  pinned    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([pinned, updatedAt])
+}

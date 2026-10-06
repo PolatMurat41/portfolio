@@ -18,7 +18,8 @@ interface InboxMessage {
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short" });
+  // Fixed time zone so the server render and the browser agree.
+  return new Date(iso).toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short", timeZone: "Europe/Istanbul" });
 }
 
 export function MessagesInbox({ initialMessages }: { initialMessages: InboxMessage[] }) {

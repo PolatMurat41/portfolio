@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { ensureSchema } from "@/lib/schema-sync";
 import {
   BookOpen,
   Briefcase,
@@ -12,10 +13,13 @@ import {
   ArrowRight,
   Bot,
   Inbox,
+  NotebookPen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default async function AdminDashboardPage() {
+  // Layouts and pages render in parallel, so don't rely on the layout's sync.
+  await ensureSchema();
   const [
     profile,
     posts,
@@ -29,6 +33,7 @@ export default async function AdminDashboardPage() {
     unreadMessages,
     conversations,
     chatbot,
+    notes,
   ] = await Promise.all([
     prisma.profile.findUnique({ where: { id: 1 } }),
     prisma.blogPost.count(),
@@ -42,6 +47,7 @@ export default async function AdminDashboardPage() {
     prisma.contactMessage.count({ where: { read: false } }),
     prisma.chatConversation.count(),
     prisma.chatbotSettings.findUnique({ where: { id: 1 }, select: { enabled: true } }),
+    prisma.note.count(),
   ]);
 
   const stats = [
@@ -60,6 +66,14 @@ export default async function AdminDashboardPage() {
       href: "/admin/chatbot",
       icon: Bot,
       color: "from-violet-500/10 to-fuchsia-500/10 text-violet-500",
+    },
+    {
+      label: "Özel Notlar",
+      value: notes,
+      hint: "Sadece sen görebilirsin",
+      href: "/admin/notes",
+      icon: NotebookPen,
+      color: "from-yellow-500/10 to-amber-500/10 text-amber-500",
     },
     {
       label: "Makaleler & Blog",

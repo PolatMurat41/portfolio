@@ -146,3 +146,10 @@ export const contactMessageSchema = z.object({
   website: z.string().max(500).optional(),
 });
 export type ContactMessageInput = z.infer<typeof contactMessageSchema>;
+
+export const noteSchema = z.object({
+  title: z.string().trim().min(1).max(200),
+  content: z.string().max(100000).default(""),
+  pinned: z.boolean().default(false),
+});
+export type NoteInput = z.infer<typeof noteSchema>;

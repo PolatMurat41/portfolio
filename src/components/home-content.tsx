@@ -1,13 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { useChat } from "@/components/chat/chat-provider";
 import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import { getIcon } from "@/lib/icon-registry";
 import { translations } from "@/lib/translations";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Markdown from "react-markdown";
 
@@ -70,6 +72,7 @@ export function HomeContent({
 }: HomeContentProps) {
   const { language } = useLanguage();
   const t = translations[language];
+  const chat = useChat();
 
   // Dynamic summary based on selected language, reading directly from database
   const activeSummary =
@@ -88,6 +91,15 @@ export function HomeContent({
         <div className="mx-auto w-full max-w-2xl space-y-8">
           <div className="gap-2 gap-y-6 flex flex-col md:flex-row justify-between">
             <div className="gap-2 flex flex-col order-2 md:order-1">
+              <BlurFade delay={BLUR_FADE_DELAY}>
+                <span className="mb-1 inline-flex w-fit items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground">
+                  <span className="relative flex size-2">
+                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+                  </span>
+                  {t.hero.available}
+                </span>
+              </BlurFade>
               <BlurFadeText
                 delay={BLUR_FADE_DELAY}
                 className="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl"
@@ -99,12 +111,47 @@ export function HomeContent({
                 delay={BLUR_FADE_DELAY}
                 text={activeDescription}
               />
+              {profile.location && (
+                <BlurFade delay={BLUR_FADE_DELAY * 2}>
+                  <a
+                    href={profile.locationLink || undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex w-fit items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <MapPin className="size-3.5" />
+                    {profile.location}
+                  </a>
+                </BlurFade>
+              )}
+              <BlurFade delay={BLUR_FADE_DELAY * 3}>
+                <div className="mt-3 flex flex-wrap gap-2.5">
+                  <Button asChild className="gap-2 rounded-xl">
+                    <a href="#contact">
+                      <Mail className="size-4" />
+                      {t.hero.ctaContact}
+                    </a>
+                  </Button>
+                  {chat && (
+                    <Button variant="outline" className="group gap-2 rounded-xl bg-background/70" onClick={() => chat.openChat()}>
+                      <Sparkles className="size-4 transition-transform group-hover:rotate-12" />
+                      {t.hero.ctaAskAi}
+                    </Button>
+                  )}
+                </div>
+              </BlurFade>
             </div>
             <BlurFade delay={BLUR_FADE_DELAY} className="order-1 md:order-2">
-              <Avatar className="size-24 md:size-32 border rounded-full shadow-lg ring-4 ring-muted">
-                <AvatarImage alt={profile.name} src={profile.avatarUrl} />
-                <AvatarFallback>{profile.initials}</AvatarFallback>
-              </Avatar>
+              <div className="relative size-fit rounded-full p-[3px]">
+                <div
+                  aria-hidden
+                  className="absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,transparent_0deg,var(--foreground)_90deg,transparent_180deg,transparent_360deg)] opacity-60 animate-[spin_6s_linear_infinite] motion-reduce:animate-none"
+                />
+                <Avatar className="relative size-24 md:size-32 border-4 border-background rounded-full shadow-lg">
+                  <AvatarImage alt={profile.name} src={profile.avatarUrl} />
+                  <AvatarFallback>{profile.initials}</AvatarFallback>
+                </Avatar>
+              </div>
             </BlurFade>
           </div>
         </div>
@@ -188,7 +235,7 @@ export function HomeContent({
               const Icon = getIcon(skill.iconKey);
               return (
                 <BlurFade key={skill.id} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
-                  <div className="border bg-background border-border ring-2 ring-border/20 rounded-xl h-8 w-fit px-4 flex items-center gap-2">
+                  <div className="border bg-background border-border ring-2 ring-border/20 rounded-xl h-8 w-fit px-4 flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-sm">
                     {Icon && <Icon className="size-4 rounded overflow-hidden object-contain" />}
                     <span className="text-foreground text-sm font-medium">{skill.name}</span>
                   </div>

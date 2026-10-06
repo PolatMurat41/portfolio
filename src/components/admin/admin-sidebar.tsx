@@ -16,6 +16,8 @@ import {
   Trophy,
   ExternalLink,
   ShieldCheck,
+  Bot,
+  Inbox,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -27,13 +29,15 @@ const NAV_ITEMS = [
   { href: "/admin/skills", label: "Yetenekler", icon: Sparkles },
   { href: "/admin/projects", label: "Projeler", icon: FolderGit2 },
   { href: "/admin/hackathons", label: "Hackathonlar", icon: Trophy },
+  { href: "/admin/chatbot", label: "AI Chatbot", icon: Bot },
+  { href: "/admin/messages", label: "Mesajlar", icon: Inbox },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebar({ unreadMessages = 0 }: { unreadMessages?: number }) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-full md:w-64 shrink-0 border-b md:border-b-0 md:border-r border-border bg-card/60 backdrop-blur-md flex flex-col justify-between p-4 md:p-6 min-h-full">
+    <aside className="relative z-10 w-full md:w-64 shrink-0 border-b md:border-b-0 md:border-r border-border bg-card/60 backdrop-blur-md flex flex-col justify-between p-4 md:p-6 min-h-full">
       <div className="flex flex-col gap-6">
         {/* Brand header */}
         <div className="flex items-center justify-between">
@@ -73,6 +77,16 @@ export function AdminSidebar() {
               >
                 <Icon className={cn("size-4", isActive ? "text-primary-foreground" : "text-muted-foreground")} />
                 <span>{item.label}</span>
+                {item.href === "/admin/messages" && unreadMessages > 0 && (
+                  <span
+                    className={cn(
+                      "ml-auto min-w-5 h-5 px-1.5 rounded-full text-[11px] font-semibold flex items-center justify-center",
+                      isActive ? "bg-primary-foreground text-primary" : "bg-blue-500 text-white"
+                    )}
+                  >
+                    {unreadMessages}
+                  </span>
+                )}
               </Link>
             );
           })}

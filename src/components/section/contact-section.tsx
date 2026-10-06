@@ -1,9 +1,17 @@
-import { getSocialLinks } from "@/lib/data";
+import { getProfile, getSocialLinks } from "@/lib/data";
 import { ContactSectionClient } from "./contact-section-client";
 
 export default async function ContactSection() {
-  const socialLinks = await getSocialLinks();
-  const emailLink = socialLinks.find((social) => social.platform === "Email");
+  const [profile, socialLinks] = await Promise.all([getProfile(), getSocialLinks()]);
 
-  return <ContactSectionClient emailLink={emailLink} />;
+  return (
+    <ContactSectionClient
+      email={profile.email}
+      location={profile.location}
+      locationLink={profile.locationLink}
+      socialLinks={socialLinks
+        .filter((social) => social.platform !== "Email" && social.url)
+        .map(({ id, platform, url }) => ({ id, platform, url }))}
+    />
+  );
 }

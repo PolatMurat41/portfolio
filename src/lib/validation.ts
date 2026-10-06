@@ -112,3 +112,37 @@ export const socialLinksSchema = z.object({
   ),
 });
 export type SocialLinksInput = z.infer<typeof socialLinksSchema>;
+
+export const chatbotSettingsSchema = z.object({
+  enabled: z.boolean(),
+  provider: z.enum(["anthropic", "openai"]),
+  model: z.string().trim().min(1).max(200),
+  // Omitted or empty keeps the stored key; clearApiKey removes it.
+  apiKey: z.string().trim().max(500).optional(),
+  clearApiKey: z.boolean().optional(),
+  baseUrl: z.union([z.string().trim().url(), z.literal("")]).optional().nullable(),
+  botName: z.string().trim().min(1).max(60),
+  systemPrompt: z.string().trim().min(1).max(20000),
+  includeContext: z.boolean(),
+  effort: z.enum(["low", "medium", "high"]),
+  temperature: z.number().min(0).max(2).optional().nullable(),
+  maxTokens: z.number().int().min(256).max(64000),
+  welcomeMessage: z.string().trim().min(1).max(1000),
+  welcomeMessageEn: z.string().trim().max(1000).optional().nullable(),
+  suggestions: z.array(z.string().trim().min(1).max(200)).max(6).default([]),
+  suggestionsEn: z.array(z.string().trim().min(1).max(200)).max(6).default([]),
+  rateLimitPerHour: z.number().int().min(1).max(1000),
+  dailyLimit: z.number().int().min(0).max(100000),
+});
+export type ChatbotSettingsInput = z.infer<typeof chatbotSettingsSchema>;
+
+export const contactMessageSchema = z.object({
+  name: z.string().trim().min(2).max(100),
+  email: z.string().trim().email().max(200),
+  subject: z.string().trim().max(200).optional().nullable(),
+  message: z.string().trim().min(10).max(5000),
+  // Honeypot: hidden from people, filled in by naive bots. A filled one is
+  // accepted silently and dropped so bots get no signal.
+  website: z.string().max(500).optional(),
+});
+export type ContactMessageInput = z.infer<typeof contactMessageSchema>;

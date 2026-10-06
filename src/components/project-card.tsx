@@ -20,7 +20,8 @@ function ProjectImage({ src, alt }: { src: string; alt: string }) {
     <img
       src={src}
       alt={alt}
-      className="w-full h-48 object-cover"
+      loading="lazy"
+      className="w-full h-48 object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04]"
       onError={() => setImageError(true)}
     />
   );
@@ -52,11 +53,11 @@ export function ProjectCard({
   return (
     <div
       className={cn(
-        "flex flex-col h-full border border-border rounded-xl overflow-hidden hover:ring-2 cursor-pointer hover:ring-muted transition-all duration-200",
+        "group flex flex-col h-full border border-border rounded-xl overflow-hidden bg-card/90 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl hover:shadow-foreground/5",
         className
       )}
     >
-      <div className="relative shrink-0">
+      <div className="relative shrink-0 overflow-hidden border-b border-border">
         <Link href={href || "#"} target="_blank" rel="noopener noreferrer" className="block">
           {video ? (
             <video src={video} autoPlay loop muted playsInline className="w-full h-48 object-cover" />
@@ -92,7 +93,7 @@ export function ProjectCard({
             href={href || "#"}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+            className="text-muted-foreground hover:text-foreground transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
             aria-label={`Open ${title}`}
           >
             <ArrowUpRight className="h-4 w-4" aria-hidden />

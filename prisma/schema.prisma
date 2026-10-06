@@ -118,3 +118,66 @@ model BlogPost {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
+
+// Singleton row (id = 1) holding the public AI chatbot's configuration,
+// edited from /admin/chatbot. apiKey is server-only and never sent to the
+// browser; AI_API_KEY in the environment is used when it is empty.
+model ChatbotSettings {
+  id               Int      @id @default(1)
+  enabled          Boolean  @default(false)
+  provider         String   @default("anthropic")
+  model            String   @default("claude-opus-5-5")
+  apiKey           String?
+  baseUrl          String?
+  botName          String   @default("AI Asistan")
+  systemPrompt     String
+  includeContext   Boolean  @default(true)
+  effort           String   @default("low")
+  temperature      Float?
+  maxTokens        Int      @default(8192)
+  welcomeMessage   String
+  welcomeMessageEn String?
+  suggestions      String[]
+  suggestionsEn    String[]
+  rateLimitPerHour Int      @default(30)
+  dailyLimit       Int      @default(500)
+  updatedAt        DateTime @updatedAt
+}
+
+model ChatConversation {
+  id        String        @id @default(cuid())
+  visitorId String
+  ipHash    String
+  language  String        @default("tr")
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  messages  ChatMessage[]
+
+  @@index([ipHash])
+  @@index([updatedAt])
+}
+
+model ChatMessage {
+  id             String           @id @default(cuid())
+  conversationId String
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String
+  content        String
+  createdAt      DateTime         @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  ipHash    String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([ipHash, createdAt])
+}

@@ -64,6 +64,22 @@ Copy `.env.example` to `.env` and fill in:
 | `SESSION_SECRET` | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
 | `ADMIN_PASSWORD_HASH` | `node scripts/hash-password.mjs <your-password>` (already base64-encoded — paste the output as-is) |
 | `BLOB_READ_WRITE_TOKEN` | Storage tab → Create Database → Blob → set access to **Public** → Connect Project. Needed for the admin panel's image upload button (Profile avatar). |
+| `AI_API_KEY` | Optional. API key for the AI chatbot ([Anthropic Console](https://console.anthropic.com/) for Claude, or any OpenAI-compatible provider). You can instead paste the key in **/admin/chatbot**, which takes precedence. |
+
+## AI chatbot
+
+A floating AI assistant answers visitors' questions about you, using the portfolio data from the admin panel (profile, work, education, skills, projects, articles) as context. Manage it at **/admin/chatbot**:
+
+- **Provider & model** — Anthropic Claude (default `claude-opus-5-5`; Sonnet 5.5 and Haiku 4.5 are one click away) or any OpenAI-compatible API (OpenAI, OpenRouter, Groq, LiteLLM, vLLM, Ollama) via a base URL.
+- **API key** — stored server-side only and never sent to the browser; falls back to `AI_API_KEY`. The widget stays hidden until the bot is enabled *and* has a key.
+- **System prompt** — fully editable, with `{{name}}` / `{{email}}` placeholders, a preview of the exact prompt the model receives, and a live playground that tests unsaved settings.
+- **Welcome message & suggested questions** in Turkish and English.
+- **Limits** — messages per visitor per hour and a site-wide daily cap, to protect your API budget.
+- **Conversation logs** — every visitor conversation is viewable and deletable under *Konuşma Kayıtları*.
+
+## Contact form
+
+Messages sent from the site's contact form are stored in the database and appear in **/admin/messages** (with an unread badge in the sidebar). Submissions are validated, rate-limited per visitor and protected by a honeypot field.
 
 ## First-time setup
 

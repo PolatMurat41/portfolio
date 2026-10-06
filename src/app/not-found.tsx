@@ -2,11 +2,22 @@ import Link from "next/link";
 import { Home } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { AnimatedDotGrid } from "@/components/magicui/animated-dot-grid";
+
+const BACKGROUND_MASK = "radial-gradient(ellipse at center, transparent 15%, black 70%)";
 
 export default function NotFound() {
     return (
-        <div className="min-h-[calc(100vh-12rem)] flex flex-col">
-            <div className="flex-1 flex items-center justify-center p-8">
+        <div className="relative min-h-dvh flex flex-col">
+            <div aria-hidden className="pointer-events-none fixed inset-0">
+                <AnimatedDotGrid
+                    className="h-full w-full"
+                    maxOpacity={0.35}
+                    interactive
+                    style={{ maskImage: BACKGROUND_MASK, WebkitMaskImage: BACKGROUND_MASK }}
+                />
+            </div>
+            <div className="relative flex-1 flex items-center justify-center p-8">
                 <div className="flex flex-col items-center text-center max-w-md relative">
                     <h1 className="text-[200px] font-semibold font-mono bg-linear-to-b from-primary/30 to-secondary/10 text-transparent bg-clip-text absolute -top-40 left-1/2 -translate-x-1/2 mask-[linear-gradient(to_bottom,black,black_20%,transparent_80%)] tracking-tighter uppercase [-webkit-text-stroke:3px_hsl(var(--primary)/0.6)]">
                         404

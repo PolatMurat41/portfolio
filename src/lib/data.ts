@@ -1,31 +1,8 @@
 import { prisma } from "@/lib/prisma";
-
-let schemaEnsured = false;
-export async function ensureSchemaColumns() {
-  if (schemaEnsured) return;
-  const queries = [
-    `ALTER TABLE "Profile" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;`,
-    `ALTER TABLE "Profile" ADD COLUMN IF NOT EXISTS "summaryEn" TEXT;`,
-    `ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;`,
-    `ALTER TABLE "Project" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;`,
-    `ALTER TABLE "WorkExperience" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;`,
-    `ALTER TABLE "WorkExperience" ADD COLUMN IF NOT EXISTS "descriptionEn" TEXT;`,
-    `ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "titleEn" TEXT;`,
-    `ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "summaryEn" TEXT;`,
-    `ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "contentEn" TEXT;`,
-  ];
-  for (const q of queries) {
-    try {
-      await prisma.$executeRawUnsafe(q);
-    } catch (e) {
-      console.error("Migration error on query:", q, e);
-    }
-  }
-  schemaEnsured = true;
-}
+import { ensureSchema } from "@/lib/schema-sync";
 
 export async function getProfile() {
-  await ensureSchemaColumns();
+  await ensureSchema();
   const profile = await prisma.profile.findUnique({ where: { id: 1 } });
   if (!profile) {
     throw new Error("Profile is not seeded yet. Run: pnpm prisma db seed");
@@ -42,7 +19,7 @@ export async function getSkills() {
 }
 
 export async function getWorkExperience() {
-  await ensureSchemaColumns();
+  await ensureSchema();
   return prisma.workExperience.findMany({ orderBy: { sortOrder: "asc" } });
 }
 
@@ -51,7 +28,7 @@ export async function getEducation() {
 }
 
 export async function getProjects() {
-  await ensureSchemaColumns();
+  await ensureSchema();
   let projects = await prisma.project.findMany({ orderBy: { sortOrder: "asc" } });
 
   // Self-healing migration for Körfez Kuyumculuk & project screenshots
@@ -104,7 +81,7 @@ export async function getHackathons() {
 }
 
 export async function getPublishedPosts() {
-  await ensureSchemaColumns();
+  await ensureSchema();
   let posts = await prisma.blogPost.findMany({
     where: { draft: false },
     orderBy: { publishedAt: "desc" },

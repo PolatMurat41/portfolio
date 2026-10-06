@@ -10,11 +10,26 @@ import {
   PlusCircle,
   User,
   ArrowRight,
+  Bot,
+  Inbox,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default async function AdminDashboardPage() {
-  const [profile, posts, drafts, work, education, skills, projects, hackathons] = await Promise.all([
+  const [
+    profile,
+    posts,
+    drafts,
+    work,
+    education,
+    skills,
+    projects,
+    hackathons,
+    messages,
+    unreadMessages,
+    conversations,
+    chatbot,
+  ] = await Promise.all([
     prisma.profile.findUnique({ where: { id: 1 } }),
     prisma.blogPost.count(),
     prisma.blogPost.count({ where: { draft: true } }),
@@ -23,9 +38,29 @@ export default async function AdminDashboardPage() {
     prisma.skill.count(),
     prisma.project.count(),
     prisma.hackathon.count(),
+    prisma.contactMessage.count(),
+    prisma.contactMessage.count({ where: { read: false } }),
+    prisma.chatConversation.count(),
+    prisma.chatbotSettings.findUnique({ where: { id: 1 }, select: { enabled: true } }),
   ]);
 
   const stats = [
+    {
+      label: "İletişim Mesajları",
+      value: messages,
+      hint: unreadMessages > 0 ? `${unreadMessages} okunmamış` : "Hepsi okundu",
+      href: "/admin/messages",
+      icon: Inbox,
+      color: "from-sky-500/10 to-blue-500/10 text-sky-500",
+    },
+    {
+      label: "AI Chatbot Konuşmaları",
+      value: conversations,
+      hint: chatbot?.enabled ? "Asistan sitede aktif" : "Asistan kapalı",
+      href: "/admin/chatbot",
+      icon: Bot,
+      color: "from-violet-500/10 to-fuchsia-500/10 text-violet-500",
+    },
     {
       label: "Makaleler & Blog",
       value: posts,

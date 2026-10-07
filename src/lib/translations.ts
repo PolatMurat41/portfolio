@@ -92,10 +92,6 @@ Banka iştiraki bünyesinde üretime hazır (production-ready) AI sistemler geli
       title: "Yarışmalar ve Hackathonlar",
       subtitle: "Zaman kısıtlı maratonlarda fikirleri çalışan prototiplere dönüştürdüğüm etkinlikler.",
     },
-    contact: {
-      badge: "İletişim",
-      title: "İletişime Geçin",
-    },
     chat: {
       launcher: "AI asistanla sohbet et",
       teaser: "Merhaba! Bana Murat hakkında her şeyi sorabilirsin.",
@@ -223,10 +219,6 @@ I develop production-ready AI systems at a leading banking subsidiary, integrati
       badge: "Hackathons",
       title: "Hackathons & Competitions",
       subtitle: "Transforming ideas into functioning prototypes under tight marathon constraints.",
-    },
-    contact: {
-      badge: "Contact",
-      title: "Get in Touch",
     },
     chat: {
       launcher: "Chat with the AI assistant",

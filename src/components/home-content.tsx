@@ -53,7 +53,6 @@ interface HomeContentProps {
   projectsComponent: React.ReactNode;
   articlesComponent: React.ReactNode;
   hackathonsComponent: React.ReactNode;
-  contactComponent: React.ReactNode;
 }
 
 export function HomeContent({
@@ -64,7 +63,6 @@ export function HomeContent({
   projectsComponent,
   articlesComponent,
   hackathonsComponent,
-  contactComponent,
 }: HomeContentProps) {
   const { language } = useLanguage();
   const t = translations[language];
@@ -243,12 +241,6 @@ export function HomeContent({
       <section id="hackathons">
         <BlurFade delay={BLUR_FADE_DELAY * 13}>
           {hackathonsComponent}
-        </BlurFade>
-      </section>
-
-      <section id="contact">
-        <BlurFade delay={BLUR_FADE_DELAY * 16}>
-          {contactComponent}
         </BlurFade>
       </section>
     </main>

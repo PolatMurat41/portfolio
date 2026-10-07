@@ -1,5 +1,4 @@
 import { getProfile, getEducation, getSkills } from "@/lib/data";
-import ContactSection from "@/components/section/contact-section";
 import HackathonsSection from "@/components/section/hackathons-section";
 import ProjectsSection from "@/components/section/projects-section";
 import WorkSection from "@/components/section/work-section";
@@ -34,7 +33,6 @@ export default async function Page() {
       projectsComponent={<ProjectsSection />}
       articlesComponent={<ArticlesSection />}
       hackathonsComponent={<HackathonsSection />}
-      contactComponent={<ContactSection />}
     />
   );
 }

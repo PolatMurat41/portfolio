@@ -77,9 +77,9 @@ A floating AI assistant answers visitors' questions about you, using the portfol
 - **Limits** — messages per visitor per hour and a site-wide daily cap, to protect your API budget.
 - **Conversation logs** — every visitor conversation is viewable and deletable under *Konuşma Kayıtları*.
 
-## Contact section
+## Contact
 
-The public contact section shows only the social links from the profile; the email address is not published there or given to the chatbot. There is no contact form; **/admin/messages** still lists messages received while one existed.
+The site has no contact section or form; visitors reach out through the social links in the dock (e.g. LinkedIn). The email address is not given to the chatbot. **/admin/messages** still lists messages received while a contact form existed.
 
 ## First-time setup
 

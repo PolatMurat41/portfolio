@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import { getIcon } from "@/lib/icon-registry";
 import { translations } from "@/lib/translations";
-import { ArrowUpRight, Mail, MapPin, Sparkles } from "lucide-react";
+import { ArrowUpRight, MapPin, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Markdown from "react-markdown";
 
@@ -91,15 +91,6 @@ export function HomeContent({
         <div className="mx-auto w-full max-w-2xl space-y-8">
           <div className="gap-2 gap-y-6 flex flex-col md:flex-row justify-between">
             <div className="gap-2 flex flex-col order-2 md:order-1">
-              <BlurFade delay={BLUR_FADE_DELAY}>
-                <span className="mb-1 inline-flex w-fit items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground">
-                  <span className="relative flex size-2">
-                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
-                  </span>
-                  {t.hero.available}
-                </span>
-              </BlurFade>
               <BlurFadeText
                 delay={BLUR_FADE_DELAY}
                 className="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl"
@@ -124,22 +115,18 @@ export function HomeContent({
                   </a>
                 </BlurFade>
               )}
-              <BlurFade delay={BLUR_FADE_DELAY * 3}>
-                <div className="mt-3 flex flex-wrap gap-2.5">
-                  <Button asChild className="gap-2 rounded-xl">
-                    <a href="#contact">
-                      <Mail className="size-4" />
-                      {t.hero.ctaContact}
-                    </a>
+              {chat && (
+                <BlurFade delay={BLUR_FADE_DELAY * 3}>
+                  <Button
+                    variant="outline"
+                    className="group mt-3 gap-2 rounded-xl bg-background/70"
+                    onClick={() => chat.openChat()}
+                  >
+                    <Sparkles className="size-4 transition-transform group-hover:rotate-12" />
+                    {t.hero.ctaAskAi}
                   </Button>
-                  {chat && (
-                    <Button variant="outline" className="group gap-2 rounded-xl bg-background/70" onClick={() => chat.openChat()}>
-                      <Sparkles className="size-4 transition-transform group-hover:rotate-12" />
-                      {t.hero.ctaAskAi}
-                    </Button>
-                  )}
-                </div>
-              </BlurFade>
+                </BlurFade>
+              )}
             </div>
             <BlurFade delay={BLUR_FADE_DELAY} className="order-1 md:order-2">
               <div className="relative size-fit rounded-full p-[3px]">

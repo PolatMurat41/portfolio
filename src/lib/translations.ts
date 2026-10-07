@@ -9,8 +9,6 @@ export const translations = {
     hero: {
       greeting: "Merhaba, ben",
       role: "Yapay Zeka Mühendisi & Full Stack Geliştirici",
-      available: "Yeni projelere açığım",
-      ctaContact: "İletişime Geç",
       ctaAskAi: "AI Asistanıma Sor",
     },
     about: {
@@ -97,10 +95,7 @@ Banka iştiraki bünyesinde üretime hazır (production-ready) AI sistemler geli
     contact: {
       badge: "İletişim",
       title: "İletişime Geçin",
-      subtitle: "Projeleriniz, danışmanlık, yapay zeka çözümleri veya iş birliği için bana doğrudan ulaşabilirsiniz.",
       buttonText: "E-posta Gönder",
-      available: "Yeni projelere ve iş birliklerine açığım",
-      responseTime: "Genellikle 24 saat içinde dönüş yaparım",
       emailLabel: "E-posta",
       locationLabel: "Konum",
       socialLabel: "Sosyal Medya",
@@ -114,7 +109,7 @@ Banka iştiraki bünyesinde üretime hazır (production-ready) AI sistemler geli
       email: "E-posta",
       emailPlaceholder: "ornek@eposta.com",
       subject: "Konu",
-      subjectPlaceholder: "Proje, iş birliği, danışmanlık...",
+      subjectPlaceholder: "Mesajınızın konusu",
       optional: "opsiyonel",
       message: "Mesajınız",
       messagePlaceholder: "Merhaba Murat, ...",
@@ -174,8 +169,6 @@ Banka iştiraki bünyesinde üretime hazır (production-ready) AI sistemler geli
     hero: {
       greeting: "Hi, I'm",
       role: "Full Stack AI Engineer",
-      available: "Open to new projects",
-      ctaContact: "Get in Touch",
       ctaAskAi: "Ask My AI Assistant",
     },
     about: {
@@ -262,10 +255,7 @@ I develop production-ready AI systems at a leading banking subsidiary, integrati
     contact: {
       badge: "Contact",
       title: "Get in Touch",
-      subtitle: "Want to chat? Have a project, consultancy, or AI collaboration in mind? Feel free to reach out anytime.",
       buttonText: "Send Email",
-      available: "Open to new projects and collaborations",
-      responseTime: "I usually reply within 24 hours",
       emailLabel: "Email",
       locationLabel: "Location",
       socialLabel: "Social",
@@ -279,7 +269,7 @@ I develop production-ready AI systems at a leading banking subsidiary, integrati
       email: "Email",
       emailPlaceholder: "you@example.com",
       subject: "Subject",
-      subjectPlaceholder: "Project, collaboration, consulting...",
+      subjectPlaceholder: "What is this about?",
       optional: "optional",
       message: "Message",
       messagePlaceholder: "Hi Murat, ...",

@@ -139,15 +139,6 @@ export function ContactSectionClient({ email, location, locationLink, socialLink
         <div className="relative z-10 flex flex-col gap-8 p-4 pt-10 sm:p-6 sm:pt-10 md:p-10">
           <h2 className="text-center text-3xl font-bold tracking-tighter sm:text-4xl">{t.title}</h2>
 
-          <div className="-mt-4 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm">
-            <span className="relative flex size-2.5 shrink-0">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex size-2.5 rounded-full bg-emerald-500" />
-            </span>
-            <span className="font-medium">{t.available}</span>
-            <span className="text-muted-foreground">· {t.responseTime}</span>
-          </div>
-
           <div className="flex flex-col gap-4">
             {/* Contact details */}
             <div className="grid gap-3 sm:grid-cols-[3fr_2fr]">

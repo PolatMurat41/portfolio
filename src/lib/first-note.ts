@@ -11,7 +11,7 @@ Admin paneline hiç girmeden, Claude gibi bir yapay zeka asistanıyla **konuşar
 
 - "Portföyüme yeni bir proje ekle: adı X, linki Y, teknolojiler Next.js ve FastAPI."
 - "Hakkımda metnine yeni işimi ekle, İngilizcesini de güncelle."
-- "Bu hafta iletişim formundan gelen mesajları özetle."
+- "Son blog taslağımı İngilizceye çevir."
 - "Chatbot'un sistem promptunu daha kısa yanıtlar verecek şekilde düzenle."
 
 ## Nasıl çalışacak
@@ -24,14 +24,13 @@ Admin paneline hiç girmeden, Claude gibi bir yapay zeka asistanıyla **konuşar
 
 **Okuma**
 - Profil / hakkımda, iş deneyimi, eğitim, yetenekler, projeler, makaleler
-- İletişim mesajları (okunmamışlar dahil), chatbot ayarları ve konuşma kayıtları
+- Chatbot ayarları ve konuşma kayıtları
 - Bu notlar
 
 **Yazma**
 - Profil ve hakkımda metnini güncelle (TR/EN)
 - Proje, iş deneyimi, eğitim, yetenek ekle / güncelle / sırala
 - Makale **taslağı** oluştur (yayınlamak ayrı ve açık bir adım)
-- Mesajı okundu işaretle
 - Chatbot ayarlarını değiştir (model, sistem promptu, limitler)
 - Not ekle / güncelle
 - TR → EN çeviri (mevcut çeviri servisi)

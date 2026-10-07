@@ -46,7 +46,6 @@ export async function buildPortfolioContext(): Promise<string> {
       `Location: ${profile.location}`,
       `Email: ${profile.email}`,
       `Website: ${siteUrl}`,
-      `Contact form: ${siteUrl}/#contact`,
     ]),
     section("About", [withEn(profile.summary, profile.summaryEn)]),
     section(

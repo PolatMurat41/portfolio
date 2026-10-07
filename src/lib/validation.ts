@@ -136,17 +136,6 @@ export const chatbotSettingsSchema = z.object({
 });
 export type ChatbotSettingsInput = z.infer<typeof chatbotSettingsSchema>;
 
-export const contactMessageSchema = z.object({
-  name: z.string().trim().min(2).max(100),
-  email: z.string().trim().email().max(200),
-  subject: z.string().trim().max(200).optional().nullable(),
-  message: z.string().trim().min(10).max(5000),
-  // Honeypot: hidden from people, filled in by naive bots. A filled one is
-  // accepted silently and dropped so bots get no signal.
-  website: z.string().max(500).optional(),
-});
-export type ContactMessageInput = z.infer<typeof contactMessageSchema>;
-
 export const noteSchema = z.object({
   title: z.string().trim().min(1).max(200),
   content: z.string().max(100000).default(""),

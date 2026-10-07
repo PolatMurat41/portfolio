@@ -77,9 +77,9 @@ A floating AI assistant answers visitors' questions about you, using the portfol
 - **Limits** — messages per visitor per hour and a site-wide daily cap, to protect your API budget.
 - **Conversation logs** — every visitor conversation is viewable and deletable under *Konuşma Kayıtları*.
 
-## Contact form
+## Contact section
 
-Messages sent from the site's contact form are stored in the database and appear in **/admin/messages** (with an unread badge in the sidebar). Submissions are validated, rate-limited per visitor and protected by a honeypot field.
+The public contact section shows only the email address (with a copy button) and the social links from the profile. There is no contact form; **/admin/messages** still lists messages received while one existed.
 
 ## First-time setup
 

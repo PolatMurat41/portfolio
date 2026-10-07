@@ -7,8 +7,6 @@ export default async function ContactSection() {
   return (
     <ContactSectionClient
       email={profile.email}
-      location={profile.location}
-      locationLink={profile.locationLink}
       socialLinks={socialLinks
         .filter((social) => social.platform !== "Email" && social.url)
         .map(({ id, platform, url }) => ({ id, platform, url }))}

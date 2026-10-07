@@ -14,7 +14,7 @@ export default async function MessagesPage() {
           <Inbox className="size-7" />
           Mesajlar
         </h1>
-        <p className="text-muted-foreground text-sm mt-1">Sitedeki iletişim formundan gelen mesajlar.</p>
+        <p className="text-muted-foreground text-sm mt-1">İletişim formundan daha önce gelen mesajlar. Form siteden kaldırıldığı için yeni mesaj gelmez.</p>
       </div>
       <MessagesInbox
         initialMessages={messages.map((m) => ({

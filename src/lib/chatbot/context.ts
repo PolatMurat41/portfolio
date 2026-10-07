@@ -44,13 +44,12 @@ export async function buildPortfolioContext(): Promise<string> {
       `Name: ${profile.name}`,
       `Title: ${withEn(profile.description, profile.descriptionEn)}`,
       `Location: ${profile.location}`,
-      `Email: ${profile.email}`,
       `Website: ${siteUrl}`,
     ]),
     section("About", [withEn(profile.summary, profile.summaryEn)]),
     section(
       "Social links",
-      social.filter((s) => s.url).map((s) => `- ${s.platform}: ${s.url.replace(/^mailto:/, "")}`)
+      social.filter((s) => s.url && s.platform !== "Email").map((s) => `- ${s.platform}: ${s.url}`)
     ),
     section(
       "Work experience",

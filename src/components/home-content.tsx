@@ -16,10 +16,8 @@ import Markdown from "react-markdown";
 const BLUR_FADE_DELAY = 0.04;
 
 interface Profile {
-  id: number;
   name: string;
   initials: string;
-  url: string;
   location: string;
   locationLink: string;
   description: string;
@@ -27,8 +25,6 @@ interface Profile {
   summary: string;
   summaryEn?: string | null;
   avatarUrl: string;
-  email: string;
-  tel: string;
 }
 
 interface Education {

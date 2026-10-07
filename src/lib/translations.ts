@@ -95,9 +95,6 @@ Banka iştiraki bünyesinde üretime hazır (production-ready) AI sistemler geli
     contact: {
       badge: "İletişim",
       title: "İletişime Geçin",
-      emailLabel: "E-posta",
-      copy: "Kopyala",
-      copied: "Kopyalandı",
     },
     chat: {
       launcher: "AI asistanla sohbet et",
@@ -230,9 +227,6 @@ I develop production-ready AI systems at a leading banking subsidiary, integrati
     contact: {
       badge: "Contact",
       title: "Get in Touch",
-      emailLabel: "Email",
-      copy: "Copy",
-      copied: "Copied",
     },
     chat: {
       launcher: "Chat with the AI assistant",

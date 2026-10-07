@@ -79,7 +79,7 @@ A floating AI assistant answers visitors' questions about you, using the portfol
 
 ## Contact section
 
-The public contact section shows only the email address (with a copy button) and the social links from the profile. There is no contact form; **/admin/messages** still lists messages received while one existed.
+The public contact section shows only the social links from the profile; the email address is not published there or given to the chatbot. There is no contact form; **/admin/messages** still lists messages received while one existed.
 
 ## First-time setup
 
